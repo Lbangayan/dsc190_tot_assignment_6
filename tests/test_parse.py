@@ -30,6 +30,11 @@ def test_yesterday():
     assert parse("yesterday", reference) == date(2026, 5, 13)
 
 
+def test_the_day_after_tomorrow():
+    reference = date(2026, 5, 14)
+    assert parse("the day after tomorrow", reference) == date(2026, 5, 16)
+
+
 def test_in_x_days():
     reference = date(2026, 5, 14)
     assert parse("in 3 days", reference) == date(2026, 5, 17)

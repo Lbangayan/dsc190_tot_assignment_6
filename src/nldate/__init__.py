@@ -23,6 +23,10 @@ def parse(s: str, today: date | None = None) -> date:
         return today + timedelta(days=1)
     if s_clean == "yesterday":
         return today - timedelta(days=1)
+    if re.fullmatch(r"(?:the\s+)?day\s+after\s+tomorrow", s_clean):
+        return today + timedelta(days=2)
+    if re.fullmatch(r"(?:the\s+)?day\s+before\s+yesterday", s_clean):
+        return today - timedelta(days=2)
 
     # 2. Weekdays (next / last)
     weekdays = {day.lower(): i for i, day in enumerate(calendar.day_name)}
