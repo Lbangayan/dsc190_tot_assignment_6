@@ -51,10 +51,12 @@ def parse(s: str, today: date | None = None) -> date:
         months = 0
         days = 0
 
-        # Find all occurrences of number + unit (e.g., '2 months', '1 year')
-        for match in re.finditer(r"(\d+)\s+(year|month|week|day)s?", delta_str):
+        # Find all occurrences of quantity + unit (e.g., '2 months', 'a week')
+        for match in re.finditer(
+            r"(\d+|a|an|one)\s+(year|month|week|day)s?", delta_str
+        ):
             val, unit = match.groups()
-            num = int(val)
+            num = 1 if val in {"a", "an", "one"} else int(val)
 
             if unit == "year":
                 years += num
