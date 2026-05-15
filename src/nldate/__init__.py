@@ -50,13 +50,30 @@ def parse(s: str, today: date | None = None) -> date:
         years = 0
         months = 0
         days = 0
+        quantity_words = {
+            "a": 1,
+            "an": 1,
+            "one": 1,
+            "two": 2,
+            "three": 3,
+            "four": 4,
+            "five": 5,
+            "six": 6,
+            "seven": 7,
+            "eight": 8,
+            "nine": 9,
+            "ten": 10,
+            "eleven": 11,
+            "twelve": 12,
+        }
 
         # Find all occurrences of quantity + unit (e.g., '2 months', 'a week')
         for match in re.finditer(
-            r"(\d+|a|an|one)\s+(year|month|week|day)s?", delta_str
+            r"(\d+|a|an|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s+(year|month|week|day)s?",
+            delta_str,
         ):
             val, unit = match.groups()
-            num = 1 if val in {"a", "an", "one"} else int(val)
+            num = quantity_words.get(val, int(val))
 
             if unit == "year":
                 years += num
