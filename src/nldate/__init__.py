@@ -113,8 +113,8 @@ def parse(s: str, today: date | None = None) -> date:
     if in_match:
         return today + parse_delta(in_match.group(1))
 
-    # "X days/weeks/months from today"
-    from_match = re.search(r"(.+?)\s+from\s+today", s_clean)
+    # "X days/weeks/months from today/now"
+    from_match = re.search(r"(.+?)\s+from\s+(today|now)", s_clean)
     if from_match:
         return today + parse_delta(from_match.group(1))
 
