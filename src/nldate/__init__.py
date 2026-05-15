@@ -73,7 +73,10 @@ def parse(s: str, today: date | None = None) -> date:
             delta_str,
         ):
             val, unit = match.groups()
-            num = quantity_words.get(val, int(val))
+            if val in quantity_words:
+                num = quantity_words[val]
+            else:
+                num = int(val)
 
             if unit == "year":
                 years += num

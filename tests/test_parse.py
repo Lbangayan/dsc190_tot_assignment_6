@@ -35,6 +35,11 @@ def test_in_x_days():
     assert parse("in 3 days", reference) == date(2026, 5, 17)
 
 
+def test_a_week_ago():
+    reference = date(2026, 5, 14)
+    assert parse("a week ago", reference) == date(2026, 5, 7)
+
+
 def test_x_weeks_from_today():
     reference = date(2026, 5, 14)
     assert parse("2 weeks from today", reference) == date(2026, 5, 28)
