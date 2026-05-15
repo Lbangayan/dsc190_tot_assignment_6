@@ -45,27 +45,26 @@ def parse(s: str, today: date | None = None) -> date:
                 return today - timedelta(days=days_behind)
 
     # 3. Relative offsets logic
-# 3. Relative offsets logic
     def parse_delta(delta_str: str) -> relativedelta:
         """Helper to turn '1 year and 2 months' into a relativedelta object."""
         years = 0
         months = 0
         days = 0
-        
+
         # Find all occurrences of number + unit (e.g., '2 months', '1 year')
-        for match in re.finditer(r'(\d+)\s+(year|month|week|day)s?', delta_str):
+        for match in re.finditer(r"(\d+)\s+(year|month|week|day)s?", delta_str):
             val, unit = match.groups()
             num = int(val)
-            
-            if unit == 'year':
+
+            if unit == "year":
                 years += num
-            elif unit == 'month':
+            elif unit == "month":
                 months += num
-            elif unit == 'week':
+            elif unit == "week":
                 days += num * 7
-            elif unit == 'day':
+            elif unit == "day":
                 days += num
-                
+
         return relativedelta(years=years, months=months, days=days)
 
     # Complex recursive patterns: "X time before Y date" or "X time after Y date"
@@ -81,6 +80,11 @@ def parse(s: str, today: date | None = None) -> date:
             return base_date - delta
         else:
             return base_date + delta
+
+    # "X days/weeks/months ago"
+    ago_match = re.search(r"(.+?)\s+ago", s_clean)
+    if ago_match:
+        return today - parse_delta(ago_match.group(1))
 
     # "in X days/weeks/months"
     in_match = re.search(r"in\s+(.+)", s_clean)
